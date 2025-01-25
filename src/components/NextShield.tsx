@@ -1,6 +1,9 @@
+"use client";
+
 import React, { ReactNode, useEffect } from 'react'
 
 import { NextShieldProps } from '../types/props'
+import { usePathname } from 'next/navigation';
 import { verifyPath, getAccessRoute } from '../libs/routes'
 
 /**
@@ -43,7 +46,6 @@ export function NextShield<
 >({
   isAuth,
   isLoading,
-  router: { pathname, replace },
   loginRoute,
   accessRoute,
   privateRoutes,
@@ -54,6 +56,8 @@ export function NextShield<
   userRole,
   children,
 }: NextShieldProps<PrivateRoutesList, PublicRoutesList> & { children: ReactNode }) {
+  const pathname = usePathname(); 
+  const router = useRouter();
   const pathIsPrivate = verifyPath(privateRoutes, pathname)
   const pathIsPublic = verifyPath(publicRoutes, pathname)
   const pathIsHybrid = verifyPath(hybridRoutes, pathname)
